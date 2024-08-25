@@ -1,46 +1,60 @@
 import Populer from "./components/Populer";
 import Teknologi from "./components/Teknologi";
+import Pagination from "./components/Pagination";
 
-async function fetchNews() {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/populer`);
+const Home = async ({ searchParams }) => {
+    const currentPage = parseInt(searchParams.page) || 1;
+    
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/terbaru`);
+    const techResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teknologi?page=${currentPage}&limit=8`);
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (!response.ok || !techResponse.ok) {
+        throw new Error('Network response was not ok');
     }
 
-    const contentType = response.headers.get('Content-Type');
-    if (contentType && contentType.includes('application/json')) {
-      const data = await response.json();
-      console.log('Data:', data);
-      return data.posts || [];
-    } else {
-      const text = await response.text();
-      console.error('Expected JSON but got:', text);
-      return [];
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return [];
-  }
-}
+    const berita = await response.json();
+    const rekomendasi = await techResponse.json();
 
-export default async function Home() {
-  const posts = await fetchNews();
-  
-  return (
-    <div>
-      <p className="text-gray-600">Headline</p>
-      <div className="grid grid-cols-3 gap-4">
-        {posts.length > 0 ? (
-          posts.map((post, index) => (
-            <Populer key={index} title={post.title} image={post.image} />
-          ))
-        ) : (
-          <p>No posts available</p>
-        )}
-      </div>
-      <Teknologi />
-    </div>
-  );
-}
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID', options);
+    };
+
+    // Ensure `totalPages` is correctly set
+    const totalPages = rekomendasi.data.totalPages;
+
+    return (
+        <div className="mx-[72px] pt-48">
+            <p className="text-gray-600">Headline</p>
+
+            <div className="flex gap-3 my-10">
+                <div className="bg-blue-500 rounded w-2"></div>
+                <h1 className="text-2xl font-bold">Berita Populer</h1>
+            </div>
+            <div className="grid grid-cols-3 gap-12">
+                {berita.data.posts.slice(0, 3).map((post, index) => (
+                    <Populer key={index} title={post.title} thumbnail={post.thumbnail} pubDate={formatDate(post.pubDate)} link={post.link} />
+                ))}
+            </div>
+
+            <div className="flex gap-3 my-10">
+                <div className="bg-blue-500 rounded w-2"></div>
+                <h1 className="text-2xl font-bold">Rekomendasi Untuk Anda</h1>
+            </div>
+            <div className="grid grid-cols-3 gap-12">
+                {rekomendasi.data.posts.slice(0, 3).map((post, index) => (
+                    <Teknologi key={index} title={post.title} thumbnail={post.thumbnail} pubDate={formatDate(post.pubDate)} link={post.link} />
+                ))}
+            </div>
+
+            {/* Pagination Controls for Recommendations */}
+            <Pagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+            />
+        </div>
+    );
+};
+
+export default Home;
