@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
+/* Additional CSS for better visibility and positioning */
+.custom-navigation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* Adjust space between buttons and pagination */
+  }
+  
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 220px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+ 
+    
+  }
+  
+  .swiper-pagination {
+    font-size: 16px;
+  }
 
+  h2{
+    font-family: "Nunito Sans", sans-serif;
+  }
 
+  
+  
+  
+  
+  
