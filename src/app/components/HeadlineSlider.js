@@ -1,90 +1,77 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { Virtual, Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import { useState, useEffect } from 'react';
 
-const HeadlineSliderComponent = ({ headline }) => {
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const date = new Date(dateString);
-    return date.toLocaleDateString('id-ID', options);
-  };
+const HeadlineSliderComponent = ({ headlines }) => {
+    const [currentSlide, setCurrentSlide] = useState(0);
 
-  if (!headline || !headline.data || !headline.data.posts) {
-    return <p>Data tidak tersedia</p>;
-  }
+    useEffect(() => {
+        console.log('Headlines data:', headlines); // Log the headlines data
+    }, [headlines]);
 
-  const [swiperRef, setSwiperRef] = useState(null);
+    const nextSlide = () => {
+        if (headlines.length > 0) {
+            setCurrentSlide((prev) => (prev + 1) % headlines.length);
+        }
+    };
 
-  useEffect(() => {
-    // Ensure Swiper navigation is updated after component mounts
-    if (swiperRef) {
-      swiperRef.update();
+    const prevSlide = () => {
+        if (headlines.length > 0) {
+            setCurrentSlide((prev) => (prev - 1 + headlines.length) % headlines.length);
+        }
+    };
+
+    // Format the date to display only the day, month, and year
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID', options);
+    };
+
+    // Check if headlines is an array and has elements
+    if (!Array.isArray(headlines) || headlines.length === 0) {
+        return <p>No headlines available.</p>;
     }
-  }, [swiperRef]);
 
-  return (
-    <>
-      <div className="relative">
-      <Swiper
-        modules={[Virtual, Navigation, Pagination]}
-        onSwiper={setSwiperRef}
-        slidesPerView={1}
-        centeredSlides={true}
-        spaceBetween={30}
-        pagination={{
-          type: 'fraction',
-          el: '.swiper-pagination',
-        }}
-        navigation={{
-          prevEl: '.swiper-button-prev',
-          nextEl: '.swiper-button-next',
-        }}
-        virtual
-      >
-        {headline.data.posts.map((post, index) => (
-          <SwiperSlide key={index}>
-            <div className='flex gap-40 mt-4'>
-              <div className='flex-col w-[600px] '>
-              <p className="text-gray-600 pb-1">Headline</p>
-                <h2 className='font-bold text-4xl mt-4 landing-[48px]'>{post.title}</h2>
-                <h2 className='mt-8'>{post.description}</h2> 
-                <p className='mt-3'>{formatDate(post.pubDate)}</p>
-                <div className='flex mt-4 items-center gap-2 text-blue-500'>
-                  <a  href={post.link}>Baca Selengkapnya </a>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
-                  </svg>
+    return (
+        <div className="headline-slider">
+            <div className="flex gap-40 mt-4">
+                <div className="flex-col w-[600px]">
+                    <p className="text-gray-600 pb-1">Headline</p>
+                    <h2 className="font-bold text-4xl mt-4 leading-[48px]">{headlines[currentSlide]?.title}</h2>
+                    <h2 className="mt-8">{headlines[currentSlide]?.description}</h2> 
+                    <p className="mt-3">{formatDate(headlines[currentSlide]?.pubDate)}</p>
+                    <div className="flex mt-4 items-center gap-2 text-blue-500">
+                        <a href={headlines[currentSlide]?.link}>Baca Selengkapnya</a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-right" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
+                        </svg>
+                    </div>
                 </div>
-               
-              </div>
-              <div>
-                <img src={post.thumbnail} alt={post.title} width={700} height={300} className='rounded-3xl'/>
-              </div>
+                <div>
+                    <img src={headlines[currentSlide]?.thumbnail} width={700} height={300} className="rounded-3xl" alt="Headline" />
+                </div>
             </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {/* Custom Navigation Buttons */}
-      <div className="custom-navigation-container absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center justify-center space-x-2">
-        <div className="swiper-button-prev cursor-pointer ">
-         
+            <div className="flex justify-center mt-12 items-center">
+                <button 
+                    onClick={prevSlide} 
+                    className={`px-4 py-2 ${currentSlide === 0 ? 'text-gray-400 cursor-not-allowed' : ''}`} 
+                    disabled={currentSlide === 0}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="12.5" viewBox="0 0 320 512"><path fill="#c4c4c4" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
+                </button>
+                <span className="mx-6 text-gray-500">
+                    {currentSlide + 1} dari {headlines.length}
+                </span>
+                <button 
+                    onClick={nextSlide} 
+                    className={`px-4 py-2 ${currentSlide === headlines.length - 1 ? 'text-gray-400 cursor-not-allowed' : ''}`} 
+                    disabled={currentSlide === headlines.length - 1}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="12.5" viewBox="0 0 320 512"><path fill="#c4c4c4" d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5 12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+                </button>
+            </div>
         </div>
-        <div className="swiper-pagination w-28 mx-2">
-          {/* Pagination fraction will be injected here by Swiper */}
-        </div>
-        <div className="swiper-button-next cursor-pointer">
-        
-        </div>
-      </div>
-    </div>
-    </>
-   
-  );
+    );
 };
 
 export default HeadlineSliderComponent;
