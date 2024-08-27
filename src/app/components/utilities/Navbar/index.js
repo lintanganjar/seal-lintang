@@ -27,17 +27,17 @@ const Navbar = () => {
     return (
         <header className={`fixed w-full z-50 px-14 py-4 border-b border-slate-300 flex justify-between ${scrolled ? 'bg-blue-500' : 'bg-white'}`}>
             <div className="flex items-center">
-                <Link href={'/Post'}><Image src={logo} alt="Logo" /></Link>
-                <p className={`font-bold text-xl ml-2 ${scrolled ? 'text-white' : 'text-black'}`}>Berita Kini</p>
+                <Link href={'/'}><Image src={logo} alt="Logo" /></Link>
+                <Link href={'/'}><p className={`font-bold text-xl ml-2 ${scrolled ? 'text-white' : 'text-black'}`}>Berita Kini</p></Link>
             </div>
             <div className={`flex gap-7 items-center ${scrolled ? 'text-white' : 'text-black'}`}>
-                <p>Beranda</p>
-                <p>Terbaru</p>
-                <p>Hiburan</p>
-                <p>Gaya Hidup</p>
-                <p>Olahraga</p>
-                <p>Nasional</p>
-                <p>Internasional</p>
+                <Link href={'/'}>Beranda</Link>
+                <Link href={'https://www.cnnindonesia.com/terbaru'}>Terbaru</Link>
+                <Link href={'https://www.cnnindonesia.com/hiburan'}>Hiburan</Link>
+                <Link href={'https://www.cnnindonesia.com/gaya-hidup'}>Gaya Hidup</Link>
+                <Link href={'https://www.cnnindonesia.com/olahraga'}>Olahraga</Link>
+                <Link href={'https://www.cnnindonesia.com/nasional'}>Nasional</Link>
+                <Link href={'https://www.cnnindonesia.com/internasional'}>Internasional</Link>
             </div>
         </header>
     );

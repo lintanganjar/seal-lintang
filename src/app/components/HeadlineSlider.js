@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
+import "../globals.css"
 
 const HeadlineSliderComponent = ({ headlines }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -38,9 +39,12 @@ const HeadlineSliderComponent = ({ headlines }) => {
                 <div className="flex-col w-[600px]">
                     <p className="text-gray-600 pb-1">Headline</p>
                     <h2 className="font-bold text-4xl mt-4 leading-[48px]">{headlines[currentSlide]?.title}</h2>
-                    <h2 className="mt-8">{headlines[currentSlide]?.description}</h2> 
-                    <p className="mt-3">{formatDate(headlines[currentSlide]?.pubDate)}</p>
-                    <div className="flex mt-4 items-center gap-2 text-blue-500">
+                    <h2 className="mt-8 text-[#4F4F4F]">{headlines[currentSlide]?.description}</h2> 
+                    <div className='flex items-center gap-3 mt-4'>
+                      <svg xmlns="http://www.w3.org/2000/svg"  height="22" width="17.5" viewBox="0 0 448 512"><path fill="#808080" d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z"/></svg>
+                      <p className=" text-[#4F4F4F]">{formatDate(headlines[currentSlide]?.pubDate)}</p>
+                    </div>
+                    <div className="flex mt-6 items-center gap-2 text-blue-500">
                         <a href={headlines[currentSlide]?.link}>Baca Selengkapnya</a>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-right" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>

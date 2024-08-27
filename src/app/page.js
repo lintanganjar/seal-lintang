@@ -3,12 +3,13 @@ import Teknologi from "./components/Teknologi";
 import Pagination from "./components/Pagination";
 import HeadlineSliderComponent from "./components/HeadlineSlider";
 import Banner from "./components/Banner";
+import './/globals.css'
 
 const Home = async ({ searchParams }) => {
   const currentPage = parseInt(searchParams?.page) || 1;
 
   const headlineResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/olahraga?page=${currentPage}&limit=1`);
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/terbaru`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/nasional`);
   const techResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/teknologi?page=${currentPage}&limit=8`);
 
   if (!response.ok || !techResponse.ok || !headlineResponse.ok) {
