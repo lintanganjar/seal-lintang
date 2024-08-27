@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import logo from '/public/logo.svg';
+import Link from 'next/link';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -26,7 +27,7 @@ const Navbar = () => {
     return (
         <header className={`fixed w-full z-50 px-14 py-4 border-b border-slate-300 flex justify-between ${scrolled ? 'bg-blue-500' : 'bg-white'}`}>
             <div className="flex items-center">
-                <Image src={logo} alt="Logo" />
+                <Link href={'/Post'}><Image src={logo} alt="Logo" /></Link>
                 <p className={`font-bold text-xl ml-2 ${scrolled ? 'text-white' : 'text-black'}`}>Berita Kini</p>
             </div>
             <div className={`flex gap-7 items-center ${scrolled ? 'text-white' : 'text-black'}`}>
