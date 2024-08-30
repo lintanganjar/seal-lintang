@@ -32,6 +32,10 @@
     font-family: "Nunito Sans", sans-serif;
   }
 
+  .nunito_sans{
+    font-family: var(--font-nunito_sans);
+  }
+
   
   
   

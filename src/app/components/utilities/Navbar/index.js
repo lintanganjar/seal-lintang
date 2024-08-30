@@ -25,20 +25,21 @@ const Navbar = () => {
     }, []);
 
     return (
-        <header className={`fixed w-full z-50 px-14 py-4 border-b border-slate-300 flex justify-between ${scrolled ? 'bg-blue-500' : 'bg-white'}`}>
+        <header className={`fixed w-full z-50 px-14 py-4 border-b  border-slate-300 flex justify-between ${scrolled ? 'bg-blue-500' : 'bg-white'}`}>
             <div className="flex items-center">
-                <Link href={'/'}><Image src={logo} alt="Logo" /></Link>
+                <Link href={'/'}><Image src={logo} alt="Logo" className='w-10'/></Link>
                 <Link href={'/'}><p className={`font-bold text-xl ml-2 ${scrolled ? 'text-white' : 'text-black'}`}>Berita Kini</p></Link>
             </div>
-            <div className={`flex gap-7 items-center ${scrolled ? 'text-white' : 'text-black'}`}>
-                <Link href={'/'}>Beranda</Link>
-                <Link href={'https://www.cnnindonesia.com/terbaru'}>Terbaru</Link>
-                <Link href={'https://www.cnnindonesia.com/hiburan'}>Hiburan</Link>
-                <Link href={'https://www.cnnindonesia.com/gaya-hidup'}>Gaya Hidup</Link>
-                <Link href={'https://www.cnnindonesia.com/olahraga'}>Olahraga</Link>
-                <Link href={'https://www.cnnindonesia.com/nasional'}>Nasional</Link>
-                <Link href={'https://www.cnnindonesia.com/internasional'}>Internasional</Link>
-            </div>
+                <ul className={`flex  gap-7 items-center ${scrolled ? 'text-white' : 'text-black'}`}>
+                    <li className='hover:text-blue-500'><Link href={'/'}>Beranda</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/terbaru'}>Terbaru</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/hiburan'}>Hiburan</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/gaya-hidup'}>Gaya Hidup</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/olahraga'}>Olahraga</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/nasional'}>Nasional</Link></li>
+                    <li className='hover:text-blue-500'><Link href={'https://www.cnnindonesia.com/internasional'}>Internasional</Link></li>
+
+                </ul>
         </header>
     );
 };
